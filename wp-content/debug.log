@@ -1,0 +1,53 @@
+[28-Dec-2020 10:19:30 UTC] PHP Deprecated:  Theme without comments.php is <strong>deprecated</strong> since version 3.0.0 with no alternative available. Please include a comments.php template in your theme. in /opt/lampp/htdocs/wordpress/wp-includes/functions.php on line 5059
+[28-Dec-2020 10:20:53 UTC] PHP Deprecated:  Theme without comments.php is <strong>deprecated</strong> since version 3.0.0 with no alternative available. Please include a comments.php template in your theme. in /opt/lampp/htdocs/wordpress/wp-includes/functions.php on line 5059
+[28-Dec-2020 10:23:05 UTC] PHP Fatal error:  Allowed memory size of 536870912 bytes exhausted (tried to allocate 32768 bytes) in /opt/lampp/htdocs/wordpress/wp-content/themes/woodworking/comments.php on line 1
+[28-Dec-2020 10:23:15 UTC] PHP Fatal error:  Allowed memory size of 536870912 bytes exhausted (tried to allocate 32768 bytes) in /opt/lampp/htdocs/wordpress/wp-content/themes/woodworking/comments.php on line 1
+[28-Dec-2020 10:28:54 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function twenty_twenty_one_get_icon_svg() in /opt/lampp/htdocs/wordpress/wp-content/themes/woodworking/comments.php:66
+Stack trace:
+#0 /opt/lampp/htdocs/wordpress/wp-includes/comment-template.php(1554): require()
+#1 /opt/lampp/htdocs/wordpress/wp-content/themes/woodworking/single-portfolio.php(27): comments_template('/comments.php')
+#2 /opt/lampp/htdocs/wordpress/wp-includes/template-loader.php(106): include('/opt/lampp/htdo...')
+#3 /opt/lampp/htdocs/wordpress/wp-blog-header.php(19): require_once('/opt/lampp/htdo...')
+#4 /opt/lampp/htdocs/wordpress/index.php(17): require('/opt/lampp/htdo...')
+#5 {main}
+  thrown in /opt/lampp/htdocs/wordpress/wp-content/themes/woodworking/comments.php on line 66
+[28-Dec-2020 10:29:04 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function twenty_twenty_one_get_icon_svg() in /opt/lampp/htdocs/wordpress/wp-content/themes/woodworking/comments.php:66
+Stack trace:
+#0 /opt/lampp/htdocs/wordpress/wp-includes/comment-template.php(1554): require()
+#1 /opt/lampp/htdocs/wordpress/wp-content/themes/woodworking/single.php(27): comments_template('/comments.php')
+#2 /opt/lampp/htdocs/wordpress/wp-includes/template-loader.php(106): include('/opt/lampp/htdo...')
+#3 /opt/lampp/htdocs/wordpress/wp-blog-header.php(19): require_once('/opt/lampp/htdo...')
+#4 /opt/lampp/htdocs/wordpress/index.php(17): require('/opt/lampp/htdo...')
+#5 {main}
+  thrown in /opt/lampp/htdocs/wordpress/wp-content/themes/woodworking/comments.php on line 66
+[28-Dec-2020 10:29:10 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function twenty_twenty_one_get_icon_svg() in /opt/lampp/htdocs/wordpress/wp-content/themes/woodworking/comments.php:66
+Stack trace:
+#0 /opt/lampp/htdocs/wordpress/wp-includes/comment-template.php(1554): require()
+#1 /opt/lampp/htdocs/wordpress/wp-content/themes/woodworking/single.php(27): comments_template('/comments.php')
+#2 /opt/lampp/htdocs/wordpress/wp-includes/template-loader.php(106): include('/opt/lampp/htdo...')
+#3 /opt/lampp/htdocs/wordpress/wp-blog-header.php(19): require_once('/opt/lampp/htdo...')
+#4 /opt/lampp/htdocs/wordpress/index.php(17): require('/opt/lampp/htdo...')
+#5 {main}
+  thrown in /opt/lampp/htdocs/wordpress/wp-content/themes/woodworking/comments.php on line 66
+[28-Dec-2020 13:36:09 UTC] PHP Notice:  Trying to get property 'term_id' of non-object in /opt/lampp/htdocs/wordpress/wp-admin/includes/class-wp-terms-list-table.php on line 429
+[28-Dec-2020 13:36:09 UTC] PHP Notice:  Trying to get property 'name' of non-object in /opt/lampp/htdocs/wordpress/wp-admin/includes/class-wp-terms-list-table.php on line 430
+[28-Dec-2020 13:36:09 UTC] PHP Notice:  Trying to get property 'slug' of non-object in /opt/lampp/htdocs/wordpress/wp-admin/includes/class-wp-terms-list-table.php on line 433
+[28-Dec-2020 13:36:09 UTC] PHP Notice:  Trying to get property 'parent' of non-object in /opt/lampp/htdocs/wordpress/wp-admin/includes/class-wp-terms-list-table.php on line 434
+[28-Dec-2020 13:36:09 UTC] PHP Notice:  Trying to get property 'term_id' of non-object in /opt/lampp/htdocs/wordpress/wp-admin/includes/class-wp-terms-list-table.php on line 429
+[28-Dec-2020 13:36:09 UTC] PHP Notice:  Trying to get property 'name' of non-object in /opt/lampp/htdocs/wordpress/wp-admin/includes/class-wp-terms-list-table.php on line 430
+[28-Dec-2020 13:36:09 UTC] PHP Notice:  Trying to get property 'slug' of non-object in /opt/lampp/htdocs/wordpress/wp-admin/includes/class-wp-terms-list-table.php on line 433
+[28-Dec-2020 13:36:09 UTC] PHP Notice:  Trying to get property 'parent' of non-object in /opt/lampp/htdocs/wordpress/wp-admin/includes/class-wp-terms-list-table.php on line 434
+[28-Dec-2020 13:36:16 UTC] PHP Notice:  Trying to get property 'term_id' of non-object in /opt/lampp/htdocs/wordpress/wp-admin/includes/class-wp-terms-list-table.php on line 429
+[28-Dec-2020 13:36:16 UTC] PHP Notice:  Trying to get property 'name' of non-object in /opt/lampp/htdocs/wordpress/wp-admin/includes/class-wp-terms-list-table.php on line 430
+[28-Dec-2020 13:36:16 UTC] PHP Notice:  Trying to get property 'slug' of non-object in /opt/lampp/htdocs/wordpress/wp-admin/includes/class-wp-terms-list-table.php on line 433
+[28-Dec-2020 13:36:16 UTC] PHP Notice:  Trying to get property 'parent' of non-object in /opt/lampp/htdocs/wordpress/wp-admin/includes/class-wp-terms-list-table.php on line 434
+[28-Dec-2020 13:36:16 UTC] PHP Notice:  Trying to get property 'term_id' of non-object in /opt/lampp/htdocs/wordpress/wp-admin/includes/class-wp-terms-list-table.php on line 429
+[28-Dec-2020 13:36:16 UTC] PHP Notice:  Trying to get property 'name' of non-object in /opt/lampp/htdocs/wordpress/wp-admin/includes/class-wp-terms-list-table.php on line 430
+[28-Dec-2020 13:36:16 UTC] PHP Notice:  Trying to get property 'slug' of non-object in /opt/lampp/htdocs/wordpress/wp-admin/includes/class-wp-terms-list-table.php on line 433
+[28-Dec-2020 13:36:16 UTC] PHP Notice:  Trying to get property 'parent' of non-object in /opt/lampp/htdocs/wordpress/wp-admin/includes/class-wp-terms-list-table.php on line 434
+[28-Dec-2020 13:37:16 UTC] PHP Warning:  call_user_func_array() expects parameter 1 to be a valid callback, function 'wporg_register_taxonomy_category' not found or invalid function name in /opt/lampp/htdocs/wordpress/wp-includes/class-wp-hook.php on line 287
+[28-Dec-2020 13:40:30 UTC] PHP Fatal error:  Cannot redeclare wporg_register_taxonomy_category() (previously declared in /opt/lampp/htdocs/wordpress/wp-content/themes/woodworking/functions.php:303) in /opt/lampp/htdocs/wordpress/wp-content/themes/woodworking/functions.php on line 351
+[28-Dec-2020 13:44:58 UTC] PHP Fatal error:  Cannot redeclare wporg_register_taxonomy_category() (previously declared in /opt/lampp/htdocs/wordpress/wp-content/themes/woodworking/functions.php:303) in /opt/lampp/htdocs/wordpress/wp-content/themes/woodworking/functions.php on line 350
+[28-Dec-2020 13:44:59 UTC] PHP Fatal error:  Cannot redeclare wporg_register_taxonomy_category() (previously declared in /opt/lampp/htdocs/wordpress/wp-content/themes/woodworking/functions.php:303) in /opt/lampp/htdocs/wordpress/wp-content/themes/woodworking/functions.php on line 350
+[28-Dec-2020 13:45:31 UTC] PHP Fatal error:  Cannot redeclare wporg_register_taxonomy_category() (previously declared in /opt/lampp/htdocs/wordpress/wp-content/themes/woodworking/functions.php:303) in /opt/lampp/htdocs/wordpress/wp-content/themes/woodworking/functions.php on line 360
+[28-Dec-2020 13:45:41 UTC] PHP Fatal error:  Cannot redeclare wporg_register_taxonomy_category() (previously declared in /opt/lampp/htdocs/wordpress/wp-content/themes/woodworking/functions.php:303) in /opt/lampp/htdocs/wordpress/wp-content/themes/woodworking/functions.php on line 360
