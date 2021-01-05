@@ -11,3 +11,9 @@
  Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
  Text Domain:  woodworkingchild
 */
+#logo a {
+	border: none;
+	background: none;
+	text-decoration: none;
+	color: #0e74d394;
+}

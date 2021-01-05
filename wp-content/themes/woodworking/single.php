@@ -1,4 +1,3 @@
-
 <?php get_header();?>
 		<!-- end #menu -->
 		<div id="page">
@@ -21,10 +20,13 @@
 							<?php endif; ?>
 						</div>
 					</div>
-					<?php get_sidebar();?>
+					
 					<div style="clear: both;">&nbsp;</div>
                     <?php comments_template('/comments.php');?>
+					<?php get_sidebar();?>
 				</div>
 			</div>
+			
 		</div>
 		<!-- end #page -->
+<?php get_footer();?>		
