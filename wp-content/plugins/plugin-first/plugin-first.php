@@ -6,10 +6,7 @@
 Plugin Name: First Plugin
 Description: Used by millions, First is quite possibly the best way in the world to <strong>protect your blog from spam</strong>. It keeps your site protected even while you sleep. To get started: activate the Akismet plugin and then go to your Akismet Settings page to set up your API key.
 Version: 4.1.7
-Author: Automattic
-Author URI: https://automattic.com/wordpress-plugins/
-License: GPLv2 or later
-Text Domain: First
+Author: Himanshu Arora
 */
 
 /*
@@ -89,7 +86,7 @@ function ced_admin_submenu()
 add_action('admin_menu', 'ced_admin_submenu');
 
 
-//function called from admin menu
+//function called from admin menu for display
 function wporg_options_page_html() {
     // check user capabilities
     if ( ! current_user_can( 'manage_options' ) ) {

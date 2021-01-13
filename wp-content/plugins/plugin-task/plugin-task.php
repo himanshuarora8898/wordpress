@@ -193,13 +193,13 @@ function ced_subscriber_email()
         $arr = array();
         if(!empty($get_post_meta))
         {
-            $arr[] = $email;
+            $get_post_meta[] = $email;
         }
         else
         {
-            $arr = $email;
+            $get_post_meta = $email;
         }
-        update_post_meta($page_id, 'subscribe_us', $arr);
+        update_post_meta($page_id, 'subscribe_us', $get_post_meta);
     }
 }
 add_action('wp_head','ced_subscriber_email');

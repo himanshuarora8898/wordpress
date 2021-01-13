@@ -145,25 +145,25 @@ function custom_post_type()
 
     // Set UI labels for Custom Post Type
     $labels = array(
-        'name' => _x('Portfolio', 'Post Type General Name', 'twentytwenty') ,
-        'singular_name' => _x('Portfolio', 'Post Type Singular Name', 'twentytwenty') ,
-        'menu_name' => __('Portfolio', 'twentytwenty') ,
-        'parent_item_colon' => __('Parent Portfolio', 'twentytwenty') ,
-        'all_items' => __('All Portfolio', 'twentytwenty') ,
-        'view_item' => __('View Portfolio', 'twentytwenty') ,
-        'add_new_item' => __('Add New Portfolio', 'twentytwenty') ,
-        'add_new' => __('Add New', 'twentytwenty') ,
-        'edit_item' => __('Edit Portfolio', 'twentytwenty') ,
-        'update_item' => __('Update Portfolio', 'twentytwenty') ,
-        'search_items' => __('Search Portfolio', 'twentytwenty') ,
-        'not_found' => __('Not Found', 'twentytwenty') ,
-        'not_found_in_trash' => __('Not found in Trash', 'twentytwenty') ,
+        'name' => _x('Portfolio', 'Post Type General Name', 'woodworking') ,
+        'singular_name' => _x('Portfolio', 'Post Type Singular Name', 'woodworking') ,
+        'menu_name' => __('Portfolio', 'woodworking') ,
+        'parent_item_colon' => __('Parent Portfolio', 'woodworking') ,
+        'all_items' => __('All Portfolio', 'woodworking') ,
+        'view_item' => __('View Portfolio', 'woodworking') ,
+        'add_new_item' => __('Add New Portfolio', 'woodworking') ,
+        'add_new' => __('Add New', 'woodworking') ,
+        'edit_item' => __('Edit Portfolio', 'woodworking') ,
+        'update_item' => __('Update Portfolio', 'woodworking') ,
+        'search_items' => __('Search Portfolio', 'woodworking') ,
+        'not_found' => __('Not Found', 'woodworking') ,
+        'not_found_in_trash' => __('Not found in Trash', 'woodworking') ,
     );
 
     // Set other options for Custom Post Type
     $args = array(
-        'label' => __('Portfolio', 'twentytwenty') ,
-        'description' => __('Portfolio news and reviews', 'twentytwenty') ,
+        'label' => __('Portfolio', 'woodworking') ,
+        'description' => __('Portfolio news and reviews', 'woodworking') ,
         'labels' => $labels,
         // Features this CPT supports in Post Editor
         'supports' => array(
@@ -346,6 +346,20 @@ $args   = array(
   register_taxonomy( 'Tags', [ 'portfolio' ], $args );
 }
 add_action( 'init', 'wporg_register_taxonomy_category' );
+
+
+function name_title($title)
+{
+    if(is_single() && get_post_type()=="portfolio" && get_post_type()!='header-menu'){
+        $title=$title.the_author();
+
+    }
+    
+    return $title;
+}
+
+add_filter('the_title','name_title',10,1);
+
 
 
 ?>
