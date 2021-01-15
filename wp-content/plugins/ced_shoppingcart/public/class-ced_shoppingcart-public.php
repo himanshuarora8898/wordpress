@@ -58,9 +58,15 @@ class Ced_shoppingcart_Public {
 		//Filter for overriding template's content file with plugin's single file
 		add_filter('single_template',array($this,'ced_single_file_override'));
 
-		//This is the shortcode hook for displaying products cart page
+		//This is the shortcode hook for displaying products on cart page
 		add_shortcode('Cart_shortcode',array($this,'ced_cart_page_content'));
 
+
+		//This is the shortcode hook for displaying products and form on checkout page
+		add_shortcode('Checkout_shortcode',array($this,'ced_checkout_page_content'));
+
+		//This is the shortcode hook for displaying thankyou text on thankyou page
+		add_shortcode('Thankyou_shortcode',array($this,'ced_thankyou_page_content'));
 	}
 
 	/**
@@ -188,55 +194,73 @@ class Ced_shoppingcart_Public {
             }
 			if (isset($_POST['update'])) 
 			{
+
                 $user_id=get_current_user_id();
                 $meta_val=get_user_meta($user_id, 'Cart-Data', 1);
                 $Id=$_POST['hidden'];
-                $Qty =$_POST['quant'];
-				foreach ($meta_val as $meta=>$val) 
-				{
-					if ($Id == $val['Id']) 
+				$Qty =$_POST['quant'];
+				$inventory=get_post_meta($Id,'Inventory_Key',1);
+				?>
+				<input type="hidden" id="invent" value='<?php echo $inventory; ?>'>
+				<input type="hidden" id="quant" value='<?php echo $Qty; ?>'>
+				<?php
+				if($Qty<=$inventory){
+					foreach ($meta_val as $meta=>$val) 
 					{
-                        $meta_val[$meta]['Quantity']=$Qty;
-                    }
-                }
+						if ($Id == $val['Id']) 
+						{
+							$meta_val[$meta]['Quantity']=$Qty;
+						}
+                	}
                 update_user_meta($user_id, 'Cart-Data', $meta_val);
+				}
+				
             }
             $user_id=get_current_user_id();
-            $upd_id=get_the_ID();
+			$upd_id=get_the_ID();
 			$meta_val=get_user_meta($user_id, 'Cart-Data', 1);
-            $table ="<table><tr>
-			<th>Product Name</th>
-			<th>Product Image</th>
-			<th>Product Quantity</th>
-			<th>Product Price</th>
-			<th>Action</th>
-			<th>Action</th></tr><tr>";
-			$total=0;
-			
-			foreach ($meta_val as $meta=>$val)
+			if(isset($meta_val) && !empty($meta_val))
 			{
-				$del=$_SERVER['REQUEST_URI']."?del=".$val['Id'];
-				$table.='<form method="POST">'."<td>".$val['Name']."</td>
-				<td>".$val['Image']."</td>
-				<td><input type='number' min='1' name='quant'  value=".$val['Quantity']."></td>
-				<td>".$val['DPrice']*$val['Quantity']."</td>
-				<td><button type='submit' name='update' >Update</button></td>
-				'<input type='hidden' value=".$val['Id']." name='hidden'>'
-				<td><a href='$del'>Delete</a></td></tr>";
-				$total+=$val['DPrice']*$val['Quantity'];
-		
-				$table.="</form>";
+				$table ="<table><tr>
+				<th>Product Name</th>
+				<th>Product Image</th>
+				<th>Product Quantity</th>
+				<th>Product Price</th>
+				<th>Action</th>
+				<th>Action</th></tr><tr>";
+				$total=0;
+				
+				foreach ($meta_val as $meta=>$val)
+				{
+					$del=$_SERVER['REQUEST_URI']."?del=".$val['Id'];
+					$table.='<form method="POST">'."<td>".$val['Name']."</td>
+					<td>".$val['Image']."</td>
+					<td><input type='number' min='1' name='quant'  value=".$val['Quantity']."></td>
+					<td>".$val['DPrice']*$val['Quantity']."</td>
+					<td><button type='submit' name='update' >Update</button></td>
+					'<input type='hidden' value=".$val['Id']." name='hidden'>'
+					<td><a href='$del'>Delete</a></td></tr>";
+					$total+=$val['DPrice']*$val['Quantity'];
+			
+					$table.="</form>";
+				}
+				$table.="</table>";
+				echo $table;
+				
+				
+				
+				
+				echo "CART TOTAL : $".$total.'<br>';
+				echo "<button><a href='http://192.168.2.127/wordpress/checkout/'>Checkout</a></button> ";
 			}
-			$table.="</table>";
-			echo $table;
-			
-			
-			
-			
-				echo "CART TOTAL : $".$total;
+			else{
+				echo "Cart Is Empty";
+			}
+            
 		}
+		
 
-		if(!is_user_logged_in())
+		if(!is_user_logged_in() && isset($_SESSION['cartdata']))
 		{
 			if (isset($_GET['del'])) 
 			{
@@ -286,10 +310,168 @@ class Ced_shoppingcart_Public {
 			
 			
 			
-				echo "CART TOTAL : $".$total;
+				echo "CART TOTAL : $".$total.'<br>';
+				echo "<button><a href='http://192.168.2.127/wordpress/checkout/'>Checkout</a></button> ";
 			}
+			
 		
     }
     
 
+
+
+	
+	/**
+	 * ced_checkout_page_content
+	 * 13-01-2021
+	 * creating checkout content and displaying the cart data
+	 * @return void
+	 */
+	function ced_checkout_page_content(){
+		if(isset($_POST['order'])){
+			$Bname=$_POST['oname'];
+			$Bemail=$_POST['email'];
+			$Baddress=$_POST['address'];
+			$Bstate=$_POST['state'];
+			$Bcity=$_POST['city'];
+			$Bpincode=$_POST['pincode'];
+			$Saddress=$_POST['shipaddress'];
+			$Sstate=$_POST['shipstate'];
+			$Scity=$_POST['shipcity'];
+			$Spincode=$_POST['shippincode'];
+			$payment=$_POST['payment'];
+			$user_id=get_current_user_id();
+			$meta_val=get_user_meta($user_id, 'Cart-Data', 1);
+			$client_details=array(
+				"Name"=>$Bname,
+				"Email"=>$Bemail
+			);
+			$billing_address=array(
+				"Billing_address"=>$Baddress,
+				"Billing_state"=>$Bstate,
+				"Billing_city"=>$Bcity,
+				"Billing_pincode"=>$Bpincode
+			);
+			$shipping_address=array(
+				"Shipping_address"=>$Saddress,
+				"Shipping_state"=>$Sstate,
+				"Shipping_city"=>$Scity,
+				"Shipping_pincode"=>$Spincode
+			);
+			$client_address=array(
+				"Bill_address"=>$billing_address,
+				"Ship_address"=>$shipping_address
+			);
+			$product_details=$meta_val;
+			$payment_method=$payment;
+			
+			$contact_details=json_encode($client_details);
+			$address=json_encode($client_address);
+			$product=json_encode($product_details);
+			global $wpdb;
+			$table_name = $wpdb->prefix . "order_details";
+			$query=$wpdb->insert($table_name, 
+			array('user_id' => $user_id,
+			'customer_details' => $contact_details,
+			'customer_address'=> $address,
+			'product_details'=>$product,
+			'payment_method'=>$payment_method
+			) );
+			if($query){
+				foreach($meta_val as $meta=>$val){
+					$invent=get_post_meta($meta,'Inventory_Key',1);
+					$invent=$invent-$meta_val[$meta]['Quantity'];
+					update_post_meta($meta,'Inventory_Key',$invent);
+				}
+			}
+			
+			if($query){
+				update_user_meta($user_id,'Cart-Data','');
+			}
+			
+		}
+		?>
+		<form method="POST">
+		         <h2>Billing Address</h2>
+				<label for="oname">Name</label>
+				<input type="text" name="oname" id="oname" pattern="^[a-zA-Z0-9]+$" >
+
+				<label for="email">Email</label>
+				<input type="email" name="email" id="email" >
+
+				<label for="address">Billing Address</label>
+				<input type="text" name="address" id="address"  pattern="[A-Za-z0-9'\.\-\s\,]">
+
+				<label for="state">State</label>
+				<input type="text" name="state" id="state" pattern="^[a-zA-Z]+$" >
+
+				<label for="city">City</label>
+				<input type="text" name="city" id="city" pattern="^[a-zA-Z]+$" >
+
+				<label for="pincode">Pincode</label>
+				<input type="number" name="pincode" id="pincode" pattern="^[1-9][0-9]{5}$" >
+
+				
+
+				<input type="checkbox" name="same" id="same">
+				<label for="same">Make shipping address same as billing address</label><br>
+			
+				<h2>Shipping Address</h2>
+				<label for="shipaddress">Shipping Address</label>
+				<input type="text" name="shipaddress" id="shipaddress" pattern="[A-Za-z0-9'\.\-\s\,]">
+
+				<label for="shipstate">State</label>
+				<input type="text" name="shipstate" id="shipstate" pattern="^[a-zA-Z]+$" >
+
+				<label for="shipcity">City</label>
+				<input type="text" name="shipcity" id="shipcity" pattern="^[a-zA-Z]+$">
+
+				<label for="shippincode">Pincode</label>
+				<input type="number" name="shippincode" id="shippincode" pattern="^[1-9][0-9]{5}$">
+
+                <h3>Payment Method</h3>
+				<input type="radio" name="payment" id="payment" value="Cash on delivery">
+				<label for="payment">Cash on delivery</label><br>
+
+				<input type="submit" name="order" id="checkout" value="Place Order">
+		</form>
+		<?php
+
+
+		if(is_user_logged_in()){
+			$user_id=get_current_user_id();
+            $upd_id=get_the_ID();
+			$meta_val=get_user_meta($user_id, 'Cart-Data', 1);
+            $table ="<table><tr>
+			<th>Product Name</th>
+			<th>Product Image</th>
+			<th>Product Quantity</th>
+			<th>Product Price</th></tr><tr>";
+			$total=0;
+			
+			foreach ($meta_val as $meta=>$val)
+			{
+				$table.="<td>".$val['Name']."</td>
+				<td>".$val['Image']."</td>
+				<td><input type='number' min='1' name='quant'  value=".$val['Quantity']." disabled></td>
+				<td>".$val['DPrice']*$val['Quantity']."</td></tr>";
+				$total+=$val['DPrice']*$val['Quantity'];
+		
+				
+			}
+			$table.="</table>";
+			echo $table;
+			
+			
+			
+			
+			echo "CART TOTAL : $".$total.'<br>';
+		}
+	}
+
+
+	function ced_thankyou_page_content(){
+
+	}
+	
 }

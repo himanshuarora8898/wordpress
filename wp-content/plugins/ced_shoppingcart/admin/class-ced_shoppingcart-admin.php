@@ -178,7 +178,7 @@ class Ced_shoppingcart_Admin {
 	 * @return void
 	 */
 	function ced_save_inventorydata( $post_id ) {
-		if ( array_key_exists( 'inventory', $_POST ) ) {
+		if ( array_key_exists( 'inventory', $_POST ) && $_POST['inventory']>0 ) {
 			update_post_meta(
 				$post_id,
 				'Inventory_Key',

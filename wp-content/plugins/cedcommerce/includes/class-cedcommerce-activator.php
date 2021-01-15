@@ -41,6 +41,8 @@ class Cedcommerce_Activator {
 			wp_die("<h1>Cannot activate this plugin before the dependent plugin</h1>");
 			deactivate_plugins("cedcommerce/cedcommerce.php");
 		}
+
+		
 	}
 	
 

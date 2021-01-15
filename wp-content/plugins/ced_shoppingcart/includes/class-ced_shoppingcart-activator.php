@@ -56,7 +56,48 @@ class Ced_shoppingcart_Activator {
 			  // Insert the post into the database
 			  wp_insert_post( $Cart );
 		}
+		if(!get_page_by_title('Checkout')){
+			$Checkout = array(
+				'post_title'    => 'Checkout',
+				'post_content'  => '[Checkout_shortcode]',
+				'post_status'   => 'publish',
+				'post_author'   => 1,
+				'post_type'     => 'page',
+			  );
+		  
+			  // Insert the post into the database
+			  wp_insert_post( $Checkout );
+		}
+		if(!get_page_by_title('Thankyou')){
+			$Checkout = array(
+				'post_title'    => 'Thankyou',
+				'post_content'  => '[Thankyou_shortcode]',
+				'post_status'   => 'publish',
+				'post_author'   => 1,
+				'post_type'     => 'page',
+			  );
+		  
+			  // Insert the post into the database
+			  wp_insert_post( $Checkout );
+		}
 		
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'order_details';
+		$charset_collate = $wpdb->get_charset_collate();
+
+		$sql = "CREATE TABLE $table_name (
+			`order_id` int(11) NOT NULL AUTO_INCREMENT,
+			`user_id` int(11) NOT NULL,
+			`customer_details` varchar(50) NOT NULL,
+			`customer_address` varchar(50) NOT NULL,
+			`product_details` varchar(50) NOT NULL,
+			`payment_method` varchar(50) NOT NULL,
+			PRIMARY KEY (`order_id`)
+		   )  $charset_collate;
+		   ";
+	
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		dbDelta( $sql );
 
 	}
 

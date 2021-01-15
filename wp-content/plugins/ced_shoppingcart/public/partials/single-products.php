@@ -2,11 +2,33 @@
 function enqueue_scripts(){
 
 
-    wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/ced_shoppingcart-admin.js', array( 'jquery' ), $this->version, false );
+    wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/ced_shoppingcart-public.js', array( 'jquery' ), $this->version, false );
 }
 ?>
 
-<?php get_header(); ?>
+<?php get_header();
+$prodId=get_the_ID();
+$inventory=get_post_meta($prodId,'Inventory_Key',1);
+if($inventory>0){
+    $user_id=get_current_user_id();
+    $user_meta=get_user_meta($user_id,'Cart-Data',true);
+    $quantity='';
+    foreach($user_meta as $user=>$meta){
+        if($prodId == $meta['Id']){
+            $quantity=$meta['Quantity'];
+        }
+    }
+    if($quantity<=$inventory){
+        $inventory=$inventory- intval($quantity);
+    }
+    
+} 
+
+
+
+
+
+?>
 <div id='display_product_list'>
     <form method='POST'>
         <table class='text-center'>
@@ -38,7 +60,10 @@ function enqueue_scripts(){
                         }
                         ?>
                 </td>
-                <td> <input type='submit' name='add' id='' value='Add To Cart'> </td>
+                <td> <input type='hidden' id='error' value='<?php echo $inventory; ?>'>
+                <input type='submit' name='add' id='addtocart'  <?php if ($inventory == '0' ){ ?> disabled <?php } ?>value='Add to Cart'>
+                <p id="out"></p>
+                </td>
             </tr>
         </table>
         <form>
@@ -56,7 +81,6 @@ if(isset($_POST['add'])){
     $meta_id=get_current_user_id();
     $prodId=get_the_ID();
     $quantity=1;
-    
     $meta_val=array('Id'=>$prodId,
     'Name'=>$pname,
     'Image'=>$pimage,
@@ -65,22 +89,27 @@ if(isset($_POST['add'])){
     'OPrice'=>$price,
     'Quantity'=>$quantity
     );
-    
-    if(isset($_SESSION['cartdata'][$prodId]) && !empty($_SESSION['cartdata'][$prodId])){
+    if(!is_user_logged_in()){
+        $prodId=get_the_ID();
+        $inventory=get_post_meta($prodId,'Inventory_Key',1); 
+        $inventory=$inventory-$_SESSION['cartdata'][$prodId]['Quantity'];
+        if(isset($_SESSION['cartdata'][$prodId]) && !empty($_SESSION['cartdata'][$prodId])){
         
-        $Qty =$_SESSION['cartdata'][$prodId]['Quantity']+1;
-        $_SESSION['cartdata'][$prodId]=array('Id' => $prodId, 'Name'=>$pname, 'Image'=>$pimage, 'Discription'=>$pdiscrip, 'DPrice'=>$dprice,'OPrice'=>$price, 'Quantity'=>$Qty);
+            $Qty =$_SESSION['cartdata'][$prodId]['Quantity']+1;
+            $_SESSION['cartdata'][$prodId]=array('Id' => $prodId, 'Name'=>$pname, 'Image'=>$pimage, 'Discription'=>$pdiscrip, 'DPrice'=>$dprice,'OPrice'=>$price, 'Quantity'=>$Qty);
+        }
+        else{
+            $_SESSION['cartdata'][$prodId]=$meta_val;
+        }
     }
-    else{
-        $_SESSION['cartdata'][$prodId]=$meta_val;
-    }
+    
 
     if(is_user_logged_in()){
         if(isset($_SESSION['cartdata'])){
             // echo $meta_id;
             echo "<pre>";
             print_r($_SESSION['cartdata']);
-            // update_user_meta($meta_id,'Cart-Data',$_SESSION['cartdata']);
+            update_user_meta($meta_id,'Cart-Data',$_SESSION['cartdata']);
         }
         // $meta_val_arr[] = $meta_val;
         // print_r($meta_val_arr);
@@ -109,5 +138,5 @@ if(isset($_POST['add'])){
 }
 
 
-// session_destroy();
+
 ?>
